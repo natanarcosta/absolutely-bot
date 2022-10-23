@@ -42,5 +42,53 @@ Para grupo de 8 pessoas: Bid de ${bestBidForRaid} | ( Lucro de ${Math.round(
          \`\`\``,
       );
     }
+
+    if (message.content.startsWith('/p2w')) {
+      const content = message.content.split(' ');
+      if (content.length !== 2) return;
+
+      const crystalValue = Number(content[1]);
+      if (isNaN(crystalValue)) return;
+      if (crystalValue <= 0) return;
+
+      const crystalNeeded = 238;
+
+      const skinCrystalCosts = {
+        tier1: {
+          cost: 2000,
+        },
+        tier2: {
+          cost: 2400,
+        },
+        tier3: {
+          cost: 1950,
+        },
+      };
+
+      const result: { tier: string; value: number }[] = [];
+
+      Object.entries(skinCrystalCosts).forEach((entry) => {
+        result.push({
+          tier: entry[0].toString(),
+          value:
+            Math.floor(Number(entry[1].cost) / crystalNeeded) * crystalValue,
+        });
+      });
+
+      let reply = `\`\`\`
+          `;
+      result.forEach((res) => {
+        reply = reply.concat(
+          `Skins de custo ${
+            skinCrystalCosts[res.tier].cost
+          } precisam ser vendidas por no mínimo ${res.value}
+          `,
+        );
+      });
+
+      reply = reply.concat('```');
+
+      await message.reply(reply);
+    }
   }
 }
