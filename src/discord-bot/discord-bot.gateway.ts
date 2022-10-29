@@ -63,6 +63,9 @@ Para grupo de 8 pessoas: Bid de ${bestBidForRaid} | ( Lucro de ${Math.round(
         tier3: {
           cost: 1950,
         },
+        tier4: {
+          cost: 650,
+        },
       };
 
       const result: { tier: string; value: number }[] = [];
