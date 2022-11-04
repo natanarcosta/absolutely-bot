@@ -34,10 +34,10 @@ export class BotGateway {
       await message.reply(
         `\`\`\`
 Para grupo de 4 pessoas: Bid de ${bestBidForParty} | ( Lucro de ${Math.round(
-          bestBidForParty / 3,
+          valueAfterTax / 4,
         )} para cada)
 Para grupo de 8 pessoas: Bid de ${bestBidForRaid} | ( Lucro de ${Math.round(
-          bestBidForParty / 7,
+          valueAfterTax / 8,
         )} para cada)
          \`\`\``,
       );
