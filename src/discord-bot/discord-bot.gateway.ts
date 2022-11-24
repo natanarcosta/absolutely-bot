@@ -17,6 +17,17 @@ export class BotGateway {
   async onMessage(message: Message) {
     if (!process.env.WHITELIST_CHANNELS.includes(message.channelId)) return;
 
+    if (message.content.startsWith('/comandos')) {
+      message.reply(`
+      \`\`\`
+      /bid {valor do item no mercado} - Calcula o lance para dividir o gold igualmente entre os membros do grupo.
+      /p2w {valor do gold no F4} - Calcula o valor pelo qual skins devem ser vendidas para valerem mais que o gold do F4.
+      /tax {valor} - Calcula o valor a ser pago de um empréstimo, levando em conta a taxa de 5%.
+
+      ex: /bid 10000
+      \`\`\``);
+    }
+
     if (message.content.startsWith('/bid')) {
       const content = message.content.split(' ');
       if (content.length !== 2) return;
@@ -92,6 +103,19 @@ Para grupo de 8 pessoas: Bid de ${bestBidForRaid} | ( Lucro de ${Math.round(
       reply = reply.concat('```');
 
       await message.reply(reply);
+    }
+
+    if (message.content.startsWith('/tax')) {
+      const content = message.content.split(' ');
+      if (content.length !== 2) return;
+
+      const value = Number(content[1]);
+
+      const ansa = Math.ceil(value / 0.95);
+
+      message.reply(
+        `\`\`\`O valor a ser pago para o recipiente ter ${value.toLocaleString()} depois da taxa (5%) é: ${ansa.toLocaleString()}\`\`\``,
+      );
     }
   }
 }
