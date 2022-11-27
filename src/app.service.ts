@@ -10,7 +10,7 @@ export class AppService {
     return 'Hello World!';
   }
 
-  @Cron(CronExpression.EVERY_MINUTE)
+  @Cron(CronExpression.EVERY_10_MINUTES)
   async ping() {
     console.log('Pingando bot');
     await firstValueFrom(
