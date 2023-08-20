@@ -9,6 +9,7 @@ import { AppService } from './app.service';
 import { BotGateway } from './discord-bot/discord-bot.gateway';
 import { DiscordBotModule } from './discord-bot/discord-bot.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { BotSlashCommandsModule } from './discord-bot/slash-commands/slash-commands.module';
 
 @Module({
   imports: [
@@ -24,11 +25,13 @@ import { ScheduleModule } from '@nestjs/schedule';
             GatewayIntentBits.GuildMessages,
             GatewayIntentBits.GuildMembers,
           ],
+          allowedMentions: { parse: ['everyone'] },
         },
       }),
     }),
     DiscordBotModule,
     HttpModule,
+    BotSlashCommandsModule,
   ],
   controllers: [AppController],
   providers: [AppService, BotGateway],

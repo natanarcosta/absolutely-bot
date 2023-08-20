@@ -1,12 +1,54 @@
 import { InjectDiscordClient, On, Once } from '@discord-nestjs/core';
 import { Injectable, Logger } from '@nestjs/common';
-import { Client, Message } from 'discord.js';
+import { Cron, CronExpression } from '@nestjs/schedule';
+import { Client, Message, TextChannel } from 'discord.js';
 
 @Injectable()
 export class BotGateway {
   private readonly logger = new Logger(BotGateway.name);
 
   constructor(@InjectDiscordClient() private readonly client: Client) {}
+
+  getTextChannel(id: string): TextChannel {
+    return this.client.channels.cache.get(id) as TextChannel;
+  }
+
+  @Cron('0 20 * * 2')
+  sendWeeklyReminder(): void {
+    const channelList: string[] = JSON.parse(
+      process.env.WEEKLY_REMINDER_CHANNELS,
+    );
+
+    for (const id of channelList) {
+      const channel = this.getTextChannel(id);
+
+      const messageContent =
+        '@everyone É terça-feira! Lembrem de finalizar contribuição da guild e limpar lojas de evento/guild/pvp!';
+
+      if (channel)
+        channel.send({
+          content: messageContent,
+          allowedMentions: { parse: ['everyone'] },
+        });
+    }
+  }
+
+  @Cron(CronExpression.EVERY_DAY_AT_7AM)
+  async purgeChannels() {
+    const channelList: string[] = JSON.parse(process.env.PURGE_CHANNELS);
+
+    for (const id of channelList) {
+      const channel = this.getTextChannel(id);
+
+      if (channel) {
+        const messages = await channel.messages.fetch();
+
+        channel
+          .bulkDelete(messages, true)
+          .then(() => console.log('Mensagens deletadas com sucesso.'));
+      }
+    }
+  }
 
   @Once('ready')
   onReady() {
@@ -84,8 +126,9 @@ Para grupo de 8 pessoas: Bid de ${bestBidForRaid} | ( Lucro de ${Math.round(
       Object.entries(skinCrystalCosts).forEach((entry) => {
         result.push({
           tier: entry[0].toString(),
-          value:
-            Math.floor(Number(entry[1].cost) / crystalNeeded * crystalValue),
+          value: Math.floor(
+            (Number(entry[1].cost) / crystalNeeded) * crystalValue,
+          ),
         });
       });
 
