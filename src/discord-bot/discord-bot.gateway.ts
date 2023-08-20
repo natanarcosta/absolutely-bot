@@ -72,7 +72,7 @@ Para grupo de 8 pessoas: Bid de ${bestBidForRaid} | ( Lucro de ${Math.round(
           cost: 2400,
         },
         tier3: {
-          cost: 1950,
+          cost: 750,
         },
         tier4: {
           cost: 650,
@@ -85,7 +85,7 @@ Para grupo de 8 pessoas: Bid de ${bestBidForRaid} | ( Lucro de ${Math.round(
         result.push({
           tier: entry[0].toString(),
           value:
-            Math.floor(Number(entry[1].cost) / crystalNeeded) * crystalValue,
+            Math.floor(Number(entry[1].cost) / crystalNeeded * crystalValue),
         });
       });
 

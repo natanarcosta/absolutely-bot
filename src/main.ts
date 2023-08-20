@@ -1,5 +1,4 @@
 import { ValidationPipe } from '@nestjs/common';
-import { TransformPipe } from '@discord-nestjs/common';
 
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
