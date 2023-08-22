@@ -13,7 +13,7 @@ export class BotGateway {
     return this.client.channels.cache.get(id) as TextChannel;
   }
 
-  @Cron('0 20 * * 2')
+  @Cron('0 23 * * 2')
   sendWeeklyReminder(): void {
     const channelList: string[] = JSON.parse(
       process.env.WEEKLY_REMINDER_CHANNELS,
