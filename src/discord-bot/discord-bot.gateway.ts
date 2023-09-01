@@ -3,6 +3,11 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { Client, Message, TextChannel } from 'discord.js';
 
+enum CustomCronExpression {
+  EVERY_SATURDAY_AT_11PM = '0 23 * * 6',
+  EVERY_TUESDAY_AT_11PM = '0 23 * * 2',
+}
+
 @Injectable()
 export class BotGateway {
   private readonly logger = new Logger(BotGateway.name);
@@ -13,7 +18,7 @@ export class BotGateway {
     return this.client.channels.cache.get(id) as TextChannel;
   }
 
-  @Cron('0 23 * * 2')
+  @Cron(CustomCronExpression.EVERY_TUESDAY_AT_11PM)
   sendWeeklyReminder(): void {
     const channelList: string[] = JSON.parse(
       process.env.WEEKLY_REMINDER_CHANNELS,
@@ -33,7 +38,27 @@ export class BotGateway {
     }
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_7AM)
+  @Cron(CustomCronExpression.EVERY_SATURDAY_AT_11PM)
+  sendWeeklyRaidReminder(): void {
+    const channelList: string[] = JSON.parse(
+      process.env.WEEKLY_REMINDER_CHANNELS,
+    );
+
+    for (const id of channelList) {
+      const channel = this.getTextChannel(id);
+
+      const messageContent =
+        '@everyone Lembrem do Boss e da Ilha/GvG da guild pra ganhar bloodstones!';
+
+      if (channel)
+        channel.send({
+          content: messageContent,
+          allowedMentions: { parse: ['everyone'] },
+        });
+    }
+  }
+
+  @Cron(CronExpression.EVERY_DAY_AT_9AM)
   async purgeChannels() {
     const channelList: string[] = JSON.parse(process.env.PURGE_CHANNELS);
 
