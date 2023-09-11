@@ -5,7 +5,7 @@ import { GearCalcCommandDto, GearChoices } from './gear-calc.dto';
 
 @Command({
   name: 'gear-calc',
-  description: 'Calculadora de gear',
+  description: 'Informa o ilvl das peças de gear informadas',
 })
 @Injectable()
 export class GearCalcCommand {
