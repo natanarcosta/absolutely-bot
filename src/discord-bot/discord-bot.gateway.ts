@@ -38,25 +38,25 @@ export class BotGateway {
     }
   }
 
-  @Cron(CustomCronExpression.EVERY_SATURDAY_AT_11PM)
-  sendWeeklyRaidReminder(): void {
-    const channelList: string[] = JSON.parse(
-      process.env.WEEKLY_REMINDER_CHANNELS,
-    );
+  // @Cron(CustomCronExpression.EVERY_SATURDAY_AT_11PM)
+  // sendWeeklyRaidReminder(): void {
+  //   const channelList: string[] = JSON.parse(
+  //     process.env.WEEKLY_REMINDER_CHANNELS,
+  //   );
 
-    for (const id of channelList) {
-      const channel = this.getTextChannel(id);
+  //   for (const id of channelList) {
+  //     const channel = this.getTextChannel(id);
 
-      const messageContent =
-        '@everyone Lembrem do Boss e da Ilha/GvG da guild pra ganhar bloodstones!';
+  //     const messageContent =
+  //       '@everyone Lembrem do Boss e da Ilha/GvG da guild pra ganhar bloodstones!';
 
-      if (channel)
-        channel.send({
-          content: messageContent,
-          allowedMentions: { parse: ['everyone'] },
-        });
-    }
-  }
+  //     if (channel)
+  //       channel.send({
+  //         content: messageContent,
+  //         allowedMentions: { parse: ['everyone'] },
+  //       });
+  //   }
+  // }
 
   @Cron(CronExpression.EVERY_DAY_AT_9AM)
   async purgeChannels() {
