@@ -33,8 +33,8 @@ export class MoveAllCommand {
 
     guild.voiceStates.cache
       .filter((vState) => vState.channelId === channelFrom)
-      .map((connectedMember) => {
-        connectedMember.setChannel(channelTo);
+      ?.map((connectedMember) => {
+        connectedMember?.setChannel(channelTo);
       });
 
     return 'Membros movidos!';
