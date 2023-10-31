@@ -24,6 +24,8 @@ import { BotSlashCommandsModule } from './discord-bot/slash-commands/slash-comma
             GatewayIntentBits.MessageContent,
             GatewayIntentBits.GuildMessages,
             GatewayIntentBits.GuildMembers,
+            GatewayIntentBits.GuildPresences,
+            GatewayIntentBits.GuildVoiceStates,
           ],
           allowedMentions: { parse: ['everyone'] },
         },

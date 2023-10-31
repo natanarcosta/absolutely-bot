@@ -1,7 +1,12 @@
-import { InjectDiscordClient, On, Once } from '@discord-nestjs/core';
+import {
+  InjectDiscordClient,
+  On,
+  Once,
+  InteractionEvent,
+} from '@discord-nestjs/core';
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { Client, Message, TextChannel } from 'discord.js';
+import { Client, GuildMember, Message, TextChannel } from 'discord.js';
 
 enum CustomCronExpression {
   EVERY_SATURDAY_AT_11PM = '0 23 * * 6',
@@ -184,6 +189,35 @@ Para grupo de 8 pessoas: Bid de ${bestBidForRaid} | ( Lucro de ${Math.round(
       message.reply(
         `\`\`\`O valor a ser pago para o recipiente ter ${value.toLocaleString()} depois da taxa (5%) é: ${ansa.toLocaleString()}\`\`\``,
       );
+    }
+
+    if (message.content.startsWith('/moverTodos')) {
+      console.log(message.guild.channels.cache);
+    }
+  }
+
+  @On('guildMemberUpdate')
+  async onMemberUpdate(oldMember, newMember) {
+    const memberRoleId = '943923476740313099';
+    const guildCharacter = '🐲';
+
+    const oldRoles: string[] = oldMember._roles;
+    const newRoles: string[] = newMember._roles;
+
+    const removedMemberRole =
+      oldRoles.includes(memberRoleId) && !newRoles.includes(memberRoleId);
+
+    const addedMemberRole =
+      !oldRoles.includes(memberRoleId) && newRoles.includes(memberRoleId);
+
+    if (removedMemberRole) {
+      if (newMember?.nickname)
+        newMember.setNickname(newMember.nickname.replace(guildCharacter, ''));
+    }
+
+    if (addedMemberRole) {
+      if (newMember?.nickname)
+        newMember.setNickname(guildCharacter + ' ' + newMember.nickname);
     }
   }
 }

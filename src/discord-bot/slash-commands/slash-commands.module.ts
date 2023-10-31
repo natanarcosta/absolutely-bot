@@ -4,6 +4,7 @@ import { ReflectMetadataProvider } from '@discord-nestjs/core';
 import { GearCalcCommand } from './gear-calc/gear-calc.command';
 import { ShardsCalcCommand } from './shards/shards.command';
 import { AtkPowerCalcCommand } from './atk-power-calc/atk-power-calc.command';
+import { MoveAllCommand } from './move-all/move-all.command';
 
 @Module({
   providers: [
@@ -12,6 +13,7 @@ import { AtkPowerCalcCommand } from './atk-power-calc/atk-power-calc.command';
     ShardsCalcCommand,
     ReflectMetadataProvider,
     AtkPowerCalcCommand,
+    MoveAllCommand,
   ],
   imports: [],
 })
