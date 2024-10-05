@@ -10,6 +10,7 @@ import { BotGateway } from './discord-bot/discord-bot.gateway';
 import { DiscordBotModule } from './discord-bot/discord-bot.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { BotSlashCommandsModule } from './discord-bot/slash-commands/slash-commands.module';
+import { ValorantChatBotModule } from './valorant-chat-bot/valorant-chat-bot.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { BotSlashCommandsModule } from './discord-bot/slash-commands/slash-comma
     DiscordBotModule,
     HttpModule,
     BotSlashCommandsModule,
+    ValorantChatBotModule,
   ],
   controllers: [AppController],
   providers: [AppService, BotGateway],
